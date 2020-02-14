@@ -3,6 +3,7 @@ package com.shop.models;
 import android.util.Log;
 
 import com.shop.common.Constant;
+import com.shop.models.api.ShopApi;
 import com.shop.models.api.WanApi;
 import com.shop.utils.SystemUtils;
 
@@ -34,6 +35,8 @@ public class HttpManager {
 
 
     private WanApi wanApi; //wanandroid接口
+
+    private ShopApi shopApi;  //商城的接口
 
 
     private static volatile HttpManager instance;
@@ -85,9 +88,19 @@ public class HttpManager {
      */
     public WanApi getWanApi(){
         if(wanApi == null){
-            wanApi = getApi(Constant.BASE_WAN_URL,WanApi.class);
+            //wanApi = getApi(Constant.BASE_WAN_URL,WanApi.class);
+            wanApi = getRetrofit(Constant.BASE_WAN_URL).create(WanApi.class);
         }
         return wanApi;
+    }
+
+    /**
+     * 获取商城的接口
+     * @return
+     */
+    public ShopApi getShopApi(){
+        if(shopApi == null) shopApi = getRetrofit(Constant.BASE_SHOP_URL).create(ShopApi.class);
+        return shopApi;
     }
 
     /**
