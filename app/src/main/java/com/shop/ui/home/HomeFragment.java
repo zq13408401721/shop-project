@@ -3,6 +3,7 @@ package com.shop.ui.home;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
     protected void initView() {
         list = new ArrayList<>();
         brandAdapter = new BrandAdapter(list,context);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new GridLayoutManager(context,2));
         recyclerView.setAdapter(brandAdapter);
         brandAdapter.setOnItemClickHandler(this);
     }
