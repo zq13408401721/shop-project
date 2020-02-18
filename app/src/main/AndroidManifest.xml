@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.TestActivity"/>
+        <activity android:name=".ui.home.activity.BrandActivity"/>
     </application>
 
 </manifest>

@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="col_gray_line">#D3D1D1</color>
+    <color name="col_white">#ffffff</color>
 </resources>

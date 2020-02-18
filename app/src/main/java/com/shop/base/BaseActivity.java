@@ -32,7 +32,7 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        //unbinder = ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         initView();
         persenter = createPersenter();
         if(persenter != null){

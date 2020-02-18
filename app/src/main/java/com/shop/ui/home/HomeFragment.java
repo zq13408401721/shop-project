@@ -1,5 +1,6 @@
 package com.shop.ui.home;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.shop.base.BaseFragment;
 import com.shop.interfaces.home.HomeConstract;
 import com.shop.models.bean.IndexBean;
 import com.shop.persenter.home.HomePersenter;
+import com.shop.ui.home.activity.BrandActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,14 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.recyclerView_News)
+    RecyclerView recyclerViewNews;
 
     BrandAdapter brandAdapter;
     List<IndexBean.DataBean.BrandListBean> list;
 
+    NewsAdapter newsAdapter;
+    List<IndexBean.DataBean.NewGoodsListBean> newsList;
 
 
     @Override
@@ -42,6 +48,20 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
         recyclerView.setLayoutManager(new GridLayoutManager(context,2));
         recyclerView.setAdapter(brandAdapter);
         brandAdapter.setOnItemClickHandler(this);
+
+        //初始化新品列表
+        newsList = new ArrayList<>();
+        newsAdapter = new NewsAdapter(newsList,context);
+        recyclerViewNews.setLayoutManager(new GridLayoutManager(context,2));
+        recyclerViewNews.setAdapter(newsAdapter);
+        //避免当前类中多个列表的点击接口回调的冲突，建议使用匿名的类实例
+        newsAdapter.setOnItemClickHandler(new BaseAdapter.ItemClickHandler() {
+            @Override
+            public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+                Log.i("newsItemClick",String.valueOf(position));
+            }
+        });
+
     }
 
     @Override
@@ -58,6 +78,8 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
     public void getHomeDataReturn(IndexBean result) {
         //刷新Brand列表数据
         brandAdapter.updata(result.getData().getBrandList());
+        //刷新新品发布列表数据
+        newsAdapter.updata(result.getData().getNewGoodsList());
     }
 
     /**
@@ -70,5 +92,9 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
         IndexBean.DataBean.BrandListBean bean = list.get(position);
         ((TextView)holder.getView(R.id.txt_name)).setText(bean.getName()+"新的名字");
         Log.i("brand-click",String.valueOf(position));
+        //跳转到brand详情页
+        Intent intent = new Intent(getContext(), BrandActivity.class);
+        intent.putExtra("brandId",bean.getId());
+        startActivity(intent);
     }
 }

@@ -5,4 +5,6 @@
     <string name="title_sort">分类</string>
     <string name="title_shoping">购物车</string>
     <string name="title_me">我的</string>
+
+    <string name="price_news_model">￥$</string>
 </resources>
