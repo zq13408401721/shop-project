@@ -26,7 +26,7 @@ public class SortGoodsAdapter extends BaseAdapter {
     public void bindData(BaseViewHolder holder, Object o) {
         SortGoodsBean.DataBean.CurrentCategoryBean.SubCategoryListBean bean = (SortGoodsBean.DataBean.CurrentCategoryBean.SubCategoryListBean) o;
         ImageView img = (ImageView) holder.getView(R.id.img_icon);
-        Glide.with(mContext).load(bean.getImg_url()).into(img);
+        Glide.with(mContext).load(bean.getWap_banner_url()).into(img);
         TextView txtName = (TextView) holder.getView(R.id.txt_name);
         txtName.setText(bean.getName());
     }

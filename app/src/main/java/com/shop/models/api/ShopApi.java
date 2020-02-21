@@ -4,6 +4,8 @@ import com.shop.models.bean.BrandBean;
 import com.shop.models.bean.BrandGoodsBean;
 import com.shop.models.bean.IndexBean;
 import com.shop.models.bean.SortBean;
+import com.shop.models.bean.SortDetailGoodsBean;
+import com.shop.models.bean.SortDetailTabBean;
 import com.shop.models.bean.SortGoodsBean;
 
 import io.reactivex.Flowable;
@@ -18,9 +20,10 @@ public interface ShopApi {
     //品牌直供的详情页数据接口
     @GET("brand/detail")
     Flowable<BrandBean> getBrandInfo(@Query("id") String id);
+
     //品牌直供详情的商品列表数据接口
     @GET("goods/list")
-    Flowable<BrandGoodsBean> getBrandGoods(@Query("brandId") String brandId,@Query("page") int page,@Query("size") int size);
+    Flowable<BrandGoodsBean> getBrandGoods(@Query("brandId") String brandId, @Query("page") int page, @Query("size") int size);
 
     //获取分类的接口
     @GET("catalog/index")
@@ -30,5 +33,12 @@ public interface ShopApi {
     @GET("catalog/current")
     Flowable<SortGoodsBean> getCurrentSortData(@Query("id") int id);
 
+    //获取分类详情页的tab数据
+    @GET("goods/category")
+    Flowable<SortDetailTabBean> getSortDetailTab(@Query("id") int id);
+
+    //获取分类详情页的商品列表数据
+    @GET("goods/list")
+    Flowable<SortDetailGoodsBean> getSortDetailGoods(@Query("id") int id,@Query("page") int page,@Query("size") int size);
 
 }

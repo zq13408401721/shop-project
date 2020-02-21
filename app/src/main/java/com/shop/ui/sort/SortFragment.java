@@ -1,5 +1,6 @@
 package com.shop.ui.sort;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shop.R;
+import com.shop.base.BaseAdapter;
 import com.shop.base.BaseFragment;
 import com.shop.interfaces.sort.SortConstract;
 import com.shop.models.bean.SortBean;
+import com.shop.models.bean.SortDetailGoodsBean;
 import com.shop.models.bean.SortGoodsBean;
 import com.shop.persenter.sort.SortPersenter;
+import com.shop.ui.sort.activity.SortDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +31,7 @@ import q.rorbin.verticaltablayout.widget.QTabView;
 import q.rorbin.verticaltablayout.widget.TabView;
 
 public class SortFragment extends BaseFragment<SortConstract.Persenter> implements SortConstract.View,
-        VerticalTabLayout.OnTabSelectedListener {
+        VerticalTabLayout.OnTabSelectedListener, BaseAdapter.ItemClickHandler {
 
 
     @BindView(R.id.verticalTab)
@@ -65,6 +69,8 @@ public class SortFragment extends BaseFragment<SortConstract.Persenter> implemen
         sortGoodsAdapter = new SortGoodsAdapter(goodsList,context);
         recyclerView.setLayoutManager(new GridLayoutManager(context,3));
         recyclerView.setAdapter(sortGoodsAdapter);
+        //绑定接口回调
+        sortGoodsAdapter.setOnItemClickHandler(this);
 
     }
 
@@ -118,16 +124,17 @@ public class SortFragment extends BaseFragment<SortConstract.Persenter> implemen
             titles.add(item.getName());
         }
         verticalTab.setTabAdapter(tabAdapter);
-        updateInfo(result.getData().getCurrentCategory().getImg_url(),
+        updateInfo(result.getData().getCurrentCategory().getBanner_url(),
                 result.getData().getCurrentCategory().getFront_desc(),
                 result.getData().getCurrentCategory().getName());
         List<SortGoodsBean.DataBean.CurrentCategoryBean.SubCategoryListBean> list = new ArrayList<>();
         for(SortBean.DataBean.CurrentCategoryBean.SubCategoryListBean item:result.getData().getCurrentCategory().getSubCategoryList()){
             SortGoodsBean.DataBean.CurrentCategoryBean.SubCategoryListBean object = new SortGoodsBean.DataBean.CurrentCategoryBean.SubCategoryListBean();
-            object.setFront_name(item.getName());
+            object.setName(item.getName());
             object.setFront_desc(item.getFront_desc());
             object.setId(item.getId());
-            object.setImg_url(item.getImg_url());
+            object.setIcon_url(item.getIcon_url());
+            object.setWap_banner_url(item.getWap_banner_url());
             list.add(object);
         }
         sortGoodsAdapter.updata(list);
@@ -141,9 +148,12 @@ public class SortFragment extends BaseFragment<SortConstract.Persenter> implemen
 
     @Override
     public void getCurrentSortDataReturn(SortGoodsBean result) {
-        goodsList.clear();
-        goodsList.addAll(result.getData().getCurrentCategory().getSubCategoryList());
-        sortGoodsAdapter.updata(goodsList);
+        updateInfo(result.getData().getCurrentCategory().getBanner_url(),
+                result.getData().getCurrentCategory().getFront_desc(),
+                result.getData().getCurrentCategory().getName());
+        List<SortGoodsBean.DataBean.CurrentCategoryBean.SubCategoryListBean> list = new ArrayList<>();
+        list.addAll(result.getData().getCurrentCategory().getSubCategoryList());
+        sortGoodsAdapter.updata(list);
     }
 
     //点击左边的竖导航切换分类数据
@@ -158,5 +168,15 @@ public class SortFragment extends BaseFragment<SortConstract.Persenter> implemen
     @Override
     public void onTabReselected(TabView tab, int position) {
 
+    }
+
+    //分类商品列表的item点击回调
+    @Override
+    public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+        int id = goodsList.get(position).getId();
+        //打开商品的详情页
+        Intent intent = new Intent(context, SortDetailActivity.class);
+        intent.putExtra("sortId",id);
+        startActivity(intent);
     }
 }
