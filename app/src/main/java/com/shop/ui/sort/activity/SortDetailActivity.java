@@ -6,12 +6,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.shop.R;
 import com.shop.base.BaseActivity;
+import com.shop.common.RecycleGridDivider;
 import com.shop.interfaces.sort.SortConstract;
 import com.shop.models.bean.SortDetailGoodsBean;
 import com.shop.models.bean.SortDetailTabBean;
@@ -61,6 +63,7 @@ public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersent
         detailGoodsAdapter = new DetailGoodsAdapter(goodsList,this);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(detailGoodsAdapter);
+        recyclerView.addItemDecoration(new RecycleGridDivider());
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

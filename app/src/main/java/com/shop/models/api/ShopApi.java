@@ -39,6 +39,6 @@ public interface ShopApi {
 
     //获取分类详情页的商品列表数据
     @GET("goods/list")
-    Flowable<SortDetailGoodsBean> getSortDetailGoods(@Query("id") int id,@Query("page") int page,@Query("size") int size);
+    Flowable<SortDetailGoodsBean> getSortDetailGoods(@Query("categoryId") int id,@Query("page") int page,@Query("size") int size);
 
 }
