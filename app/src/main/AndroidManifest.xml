@@ -30,6 +30,7 @@
         <activity android:name=".ui.TestActivity"/>
         <activity android:name=".ui.home.activity.BrandActivity"/>
         <activity android:name=".ui.sort.activity.SortDetailActivity"/>
+        <activity android:name=".ui.cart.GoodInfoActivity"/>
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.shop.models.api;
 import com.shop.models.bean.BrandBean;
 import com.shop.models.bean.BrandGoodsBean;
 import com.shop.models.bean.IndexBean;
+import com.shop.models.bean.RelatedBean;
 import com.shop.models.bean.SortBean;
 import com.shop.models.bean.SortDetailGoodsBean;
 import com.shop.models.bean.SortDetailTabBean;
@@ -40,5 +41,10 @@ public interface ShopApi {
     //获取分类详情页的商品列表数据
     @GET("goods/list")
     Flowable<SortDetailGoodsBean> getSortDetailGoods(@Query("categoryId") int id,@Query("page") int page,@Query("size") int size);
+
+    //商品购买页面的数据接口
+    @GET("goods/detail")
+    Flowable<RelatedBean> getRelatedData(@Query("id") int id);
+
 
 }

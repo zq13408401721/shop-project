@@ -1,5 +1,6 @@
 package com.shop.ui.sort.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.tabs.TabLayout;
 import com.shop.R;
 import com.shop.base.BaseActivity;
+import com.shop.base.BaseAdapter;
 import com.shop.common.RecycleGridDivider;
 import com.shop.interfaces.sort.SortConstract;
 import com.shop.models.bean.SortDetailGoodsBean;
 import com.shop.models.bean.SortDetailTabBean;
 import com.shop.persenter.sort.SortDetailPersenter;
+import com.shop.ui.cart.GoodInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersenter> implements SortConstract.DetailView,
-        TabLayout.OnTabSelectedListener {
+        TabLayout.OnTabSelectedListener, BaseAdapter.ItemClickHandler {
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.txt_title)
@@ -64,7 +67,7 @@ public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersent
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(detailGoodsAdapter);
         recyclerView.addItemDecoration(new RecycleGridDivider());
-
+        detailGoodsAdapter.setOnItemClickHandler(this);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,5 +134,14 @@ public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersent
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    //处理接口回调
+    @Override
+    public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+        int id = goodsList.get(position).getId();
+        Intent intent = new Intent(this, GoodInfoActivity.class);
+        intent.putExtra("relatedId",id);
+        startActivity(intent);
     }
 }
