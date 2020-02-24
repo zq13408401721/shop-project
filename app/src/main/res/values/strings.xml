@@ -7,4 +7,11 @@
     <string name="title_me">我的</string>
 
     <string name="price_news_model">￥$</string>
+    <string name="css_goods">
+        html,body,p{
+            padding:0px;
+            margin:0px;
+            text-align:center;
+        }
+    </string>
 </resources>

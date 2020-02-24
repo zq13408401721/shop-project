@@ -50,8 +50,8 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
     ConstraintLayout layoutNorm;
     @BindView(R.id.txt_place)
     TextView txtPlace;
-    //@BindView(R.id.myWebView)
-    //WebView webView;
+    @BindView(R.id.myWebView)
+    WebView webView;
     @BindView(R.id.txt_question)
     ConstraintLayout txtQuestion;
     @BindView(R.id.recyclerView)
@@ -72,8 +72,8 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
 
     @Override
     protected void initView() {
-        /*WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);*/
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
 
         String price = getResources().getString(R.string.price_news_model).replace("$",String.valueOf(result.getData().getInfo().getRetail_price()));
         updatePrice(result.getData().getInfo().getName(),
-                result.getData().getInfo().getGoods_desc(),price);
+                result.getData().getInfo().getGoods_brief(),price);
 
         updateWebView(result.getData().getInfo());
     }
@@ -114,7 +114,13 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
     }
     //商品介绍描述信息
     private void updateWebView(RelatedBean.DataBeanX.InfoBean infoBean){
-        //webView.loadData(infoBean.getGoods_desc(),"text/html","utf-8");
+
+        String css_str = getResources().getString(R.string.css_goods);
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html><head>");
+        sb.append("<style>"+css_str+"</style></head><body>");
+        sb.append(infoBean.getGoods_desc()+"</body></html>");
+        webView.loadData(sb.toString(),"text/html","utf-8");
     }
 
     //商品列表

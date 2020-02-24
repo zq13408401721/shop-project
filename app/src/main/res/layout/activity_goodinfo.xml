@@ -255,10 +255,10 @@
                     android:textSize="@dimen/txt_size_good_param"></TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--<WebView
+            <WebView
                 android:id="@+id/myWebView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></WebView>-->
+                android:layout_height="wrap_content"></WebView>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/txt_question"
                 android:layout_width="match_parent"
