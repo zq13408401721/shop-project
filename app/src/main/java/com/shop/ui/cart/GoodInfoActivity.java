@@ -1,6 +1,8 @@
 package com.shop.ui.cart;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import com.shop.interfaces.cart.CartConstart;
 import com.shop.models.bean.RelatedBean;
 import com.shop.persenter.cart.CartPersenter;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -121,6 +125,20 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
         sb.append("<style>"+css_str+"</style></head><body>");
         sb.append(infoBean.getGoods_desc()+"</body></html>");
         webView.loadData(sb.toString(),"text/html","utf-8");
+
+        List<String> urlList = new ArrayList<>();
+        String[] arr = infoBean.getGoods_desc().split("<p>");
+        String head = "<img src=\"";
+        String foot = ".jpg";
+        for(int i=0; i<arr.length; i++){
+            if(TextUtils.isEmpty(arr[i])) continue;
+            int start = arr[i].indexOf(head)+head.length();
+            if(start == -1) continue;
+            int end = arr[i].indexOf(foot)+foot.length();
+            String url = arr[i].substring(start,end);
+            urlList.add(url);
+            Log.i("url",url);
+        }
     }
 
     //商品列表
