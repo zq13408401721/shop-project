@@ -19,5 +19,9 @@ public class Constant {
 
     public static final String PRICE_MODEL = "$元起";
 
+    public static String session_id;
+
+    public static String token;
+
 
 }

@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="padding_goods_buy">20dp</dimen>
     <dimen name="txt_size_good_param">24sp</dimen>
+    <dimen name="margin_default_lr">20dp</dimen>
 </resources>

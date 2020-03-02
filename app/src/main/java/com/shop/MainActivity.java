@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shop.ui.TestActivity;
+import com.shop.ui.login.RegisterActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        /*Intent intent  = new Intent(this,TestActivity.class);
+        /*Intent intent  = new Intent(this, RegisterActivity.class);
         startActivity(intent);*/
 
     }

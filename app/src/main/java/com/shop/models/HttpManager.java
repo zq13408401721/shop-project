@@ -2,9 +2,12 @@ package com.shop.models;
 
 import android.util.Log;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.shop.common.Constant;
 import com.shop.models.api.ShopApi;
 import com.shop.models.api.WanApi;
+import com.shop.utils.SpUtils;
 import com.shop.utils.SystemUtils;
 
 import java.io.File;
@@ -70,9 +73,9 @@ public class HttpManager {
         File file = new File(Constant.PATH_CACHE); //本地的缓存文件
         Cache cache = new Cache(file,100*1024*1024);
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new HeaderInterceptor())
                 .addInterceptor(new LoggingInterceptor())
                 .addNetworkInterceptor(new NetworkInterceptor())
-                .addInterceptor(new HeaderInterceptor())
                 .cache(cache)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10,TimeUnit.SECONDS)
@@ -122,6 +125,8 @@ public class HttpManager {
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request().newBuilder()
                     .addHeader("Connection","keep-alive")
+                    .addHeader("Client-Type","ANDROID")
+                    .addHeader("X-Nideshop-Token", SpUtils.getInstance().getString("token"))
                     .build();
             return chain.proceed(request);
         }
@@ -141,6 +146,9 @@ public class HttpManager {
             Response response = chain.proceed(request);
             long t2 = System.nanoTime();
             Log.i("Received:",String.format("Received response for %s in %.1fms%n%s",response.request().url(),(t2-t1)/1e6d,response.headers()));
+            if(response.header("session_id") != null){
+                Constant.session_id = response.header("session_id");
+            }
             return response;
         }
     }

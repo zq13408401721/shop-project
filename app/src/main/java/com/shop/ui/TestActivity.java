@@ -1,6 +1,10 @@
 package com.shop.ui;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.shop.R;
 import com.shop.base.BaseActivity;
@@ -33,5 +37,18 @@ public class TestActivity extends BaseActivity<TestConstract.Persenter> implemen
     @Override
     public void getChaptersReturn(ChaptersBean result) {
         Log.i("Test",result.getData().toString());
+
+        Message msg = new Message();
+        msg.what = 1;
+        msg.obj = "error";
+        handler.sendMessage(msg);
     }
+
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 }
