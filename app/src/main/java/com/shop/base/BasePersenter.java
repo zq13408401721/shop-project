@@ -42,7 +42,9 @@ public abstract class BasePersenter<V extends IBaseView> implements IBasePersent
      * 在界面关闭时候移除网络请求对象
      */
     public void unSubscribe(){
-        compositeDisposable.clear();
+        if(compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
     }
 
     @Override

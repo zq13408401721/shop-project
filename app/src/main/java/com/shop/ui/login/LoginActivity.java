@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity<LoginConstract.Persenter> implem
     public void loginReturn(UserBean result) {
         //登录成功以后存入sp
         SpUtils.getInstance().setValue("token",result.getData().getToken());
-
+        finish();
     }
 
     @OnClick(R.id.btn_login)

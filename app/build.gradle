@@ -71,4 +71,5 @@ dependencies {
     //竖导航
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
 
+    implementation 'com.github.2coffees1team:GlideToVectorYou:v1.2.0'
 }

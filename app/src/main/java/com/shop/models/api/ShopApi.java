@@ -3,6 +3,7 @@ package com.shop.models.api;
 import com.shop.models.bean.BrandBean;
 import com.shop.models.bean.BrandGoodsBean;
 import com.shop.models.bean.CartBean;
+import com.shop.models.bean.CartGoodsCheckBean;
 import com.shop.models.bean.IndexBean;
 import com.shop.models.bean.RelatedBean;
 import com.shop.models.bean.SortBean;
@@ -14,6 +15,7 @@ import com.shop.models.bean.VerifyBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -59,12 +61,18 @@ public interface ShopApi {
 
     //登录
     @POST("auth/login")
+    @FormUrlEncoded
     Flowable<UserBean> login(@Field("nickname") String nickname,@Field("password") String password);
 
 
     //获取购物车的数据
     @GET("cart/index")
     Flowable<CartBean> getCartIndex();
+
+    //购物车商品数据的选中或取消
+    @POST("cart/checked")
+    @FormUrlEncoded
+    Flowable<CartGoodsCheckBean> setCartGoodsCheck(@Field("productIds") String pids,@Field("isChecked") int isChecked);
 
 
 

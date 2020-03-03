@@ -3,6 +3,7 @@ package com.shop.ui.shoping.adapters;
 import android.content.Context;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -38,7 +39,7 @@ public class ShoppingAdapter extends BaseAdapter {
         layout_edit.setVisibility(isEdit ? View.VISIBLE : View.GONE);
 
         CartBean.DataBean.CartListBean listBean = (CartBean.DataBean.CartListBean) o;
-        RadioButton radio_select = (RadioButton) holder.getView(R.id.radio_select);
+        CheckBox radio_select = (CheckBox) holder.getView(R.id.radio_select);
         ImageView img_item = (ImageView) holder.getView(R.id.img_item);
 
         radio_select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

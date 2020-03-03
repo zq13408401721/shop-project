@@ -26,7 +26,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(getLayout(),null);
+        //在ConstarinatLayout中RecylerView使用下面这种用法，保证item能满屏显示
+        View view = LayoutInflater.from(mContext).inflate(getLayout(),parent,false);
         BaseViewHolder holder = new BaseViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

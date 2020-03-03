@@ -16,12 +16,15 @@ import com.shop.base.BaseAdapter;
 import com.shop.base.BaseFragment;
 import com.shop.interfaces.cart.ShoppingConstact;
 import com.shop.models.bean.CartBean;
+import com.shop.models.bean.CartGoodsCheckBean;
 import com.shop.persenter.cart.ShoppingPresenter;
 import com.shop.ui.login.LoginActivity;
 import com.shop.ui.shoping.adapters.ShoppingAdapter;
 import com.shop.utils.SpUtils;
+import com.shop.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,10 +61,11 @@ public class ShopingFragment extends BaseFragment<ShoppingConstact.Presenter> im
         radioAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setSelectAll();
+                setSelectAll(isChecked);
                 shoppingAdapter.notifyDataSetChanged();
             }
         });
+        shoppingAdapter.setOnItemClickHandler(this);
     }
 
     @Override
@@ -71,19 +75,19 @@ public class ShopingFragment extends BaseFragment<ShoppingConstact.Presenter> im
         String token = SpUtils.getInstance().getString("token");
         if (TextUtils.isEmpty(token)) {
             Intent intent = new Intent(context, LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,100);
         } else {
             persenter.getCartIndex();
         }
     }
 
-    /*@Override
+    @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
         if(requestCode == 100){
             if(persenter != null) persenter.getCartIndex();
         }
-    }*/
+    }
 
     @Override
     protected ShoppingConstact.Presenter createPersenter() {
@@ -93,6 +97,33 @@ public class ShopingFragment extends BaseFragment<ShoppingConstact.Presenter> im
     @Override
     public void getCartIndexReturn(CartBean result) {
         shoppingAdapter.updata(result.getData().getCartList());
+        //判断当前类别的数据是否是全部选中
+        int totalPrice = 0;
+        int nums = 0;
+        boolean isSelectAll = true;
+        for(CartBean.DataBean.CartListBean item:result.getData().getCartList()){
+            if(isSelectAll){
+                if(!item.isSelect){
+                    isSelectAll = false;
+                }
+            }
+            if(item.isSelect){
+                totalPrice += item.getRetail_price()*item.getNumber();
+                nums += item.getNumber();
+            }
+        }
+        if(isSelectAll){
+            radioAll.setChecked(true);
+        }
+        String price = context.getResources().getString(R.string.price_news_model).replace("$",String.valueOf(totalPrice));
+        txtTotalPrice.setText(price);
+        radioAll.setText("全选("+nums+")");
+    }
+
+    //设置商品选中返回
+    @Override
+    public void setCartGoodsCheckedReturn(CartGoodsCheckBean result) {
+
     }
 
     @OnClick({R.id.txt_order,R.id.txt_edit})
@@ -120,15 +151,51 @@ public class ShopingFragment extends BaseFragment<ShoppingConstact.Presenter> im
     @Override
     public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
         updateSelectAll();
+        //更新商品的选中状态
+        int[] ids = new int[1];
+        ids[0] = list.get(position).getId();
+        int ischecked = list.get(position).isSelect ? 0 : 1;
+        updateGoodsChecked(ids,ischecked);
+
+    }
+
+    /**
+     * 更新购物车商品数据的选中状态
+     * @param ids
+     * @param isChecked
+     */
+    private void updateGoodsChecked(int[] ids,int isChecked){
+        String pids = StringUtils.splitArray(ids);
+        persenter.setCartGoodsChecked(pids,isChecked);
     }
 
     /**
      * 设置全部选中
      */
-    private void setSelectAll(){
-        for(CartBean.DataBean.CartListBean item:list){
-            item.isSelect = true;
+    private void setSelectAll(boolean bool){
+        //更新列表中商品的状态
+        int totalPrice = 0;
+        int nums = 0;
+        int[] ids = new int[list.size()];
+        for(int i=0; i<list.size(); i++){
+            list.get(i).isSelect = bool;
+            ids[i] = list.get(i).getId();
+            if(bool){
+                totalPrice += list.get(i).getRetail_price()*list.get(i).getNumber();
+                nums += list.get(i).getNumber();
+            }
         }
+        int isChecked = bool ? 0 : 1;
+        updateGoodsChecked(ids,isChecked);
+        //刷新界面数量和总价
+        if(bool){
+            String  price = context.getResources().getString(R.string.price_news_model).replace("$",String.valueOf(totalPrice));
+            txtTotalPrice.setText(price);
+            radioAll.setText("全选("+nums+")");
+        }else{
+            txtTotalPrice.setText("");
+        }
+
     }
 
     /**
