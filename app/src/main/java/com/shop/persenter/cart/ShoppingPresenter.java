@@ -6,6 +6,8 @@ import com.shop.interfaces.cart.ShoppingConstact;
 import com.shop.models.HttpManager;
 import com.shop.models.bean.CartBean;
 import com.shop.models.bean.CartGoodsCheckBean;
+import com.shop.models.bean.CartGoodsDeleteBean;
+import com.shop.models.bean.CartGoodsUpdateBean;
 import com.shop.utils.RxUtils;
 
 import io.reactivex.functions.Function;
@@ -42,6 +44,32 @@ public class ShoppingPresenter extends BasePersenter<ShoppingConstact.View> impl
                     @Override
                     public void onNext(CartGoodsCheckBean cartBean) {
                         mView.setCartGoodsCheckedReturn(cartBean);
+                    }
+                }));
+    }
+
+    //更新商品列表信息
+    @Override
+    public void updateCartGoods(String pids, String goodsId, int number, int id) {
+        addSubscribe(HttpManager.getInstance().getShopApi().updateCartGoods(pids,goodsId,number,id)
+                .compose(RxUtils.<CartGoodsUpdateBean>rxScheduler())
+                .subscribeWith(new CommonSubscriber<CartGoodsUpdateBean>(mView) {
+                    @Override
+                    public void onNext(CartGoodsUpdateBean updateBean) {
+                        mView.updateCartGoodsReturn(updateBean);
+                    }
+                }));
+    }
+
+    //删除商品
+    @Override
+    public void deleteCartGoods(String pids) {
+        addSubscribe(HttpManager.getInstance().getShopApi().deleteCartGoods(pids)
+                .compose(RxUtils.<CartGoodsDeleteBean>rxScheduler())
+                .subscribeWith(new CommonSubscriber<CartGoodsDeleteBean>(mView) {
+                    @Override
+                    public void onNext(CartGoodsDeleteBean deleteBean) {
+                        mView.deleteCartGoodsReturn(deleteBean);
                     }
                 }));
     }

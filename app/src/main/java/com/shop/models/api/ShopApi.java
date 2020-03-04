@@ -4,6 +4,8 @@ import com.shop.models.bean.BrandBean;
 import com.shop.models.bean.BrandGoodsBean;
 import com.shop.models.bean.CartBean;
 import com.shop.models.bean.CartGoodsCheckBean;
+import com.shop.models.bean.CartGoodsDeleteBean;
+import com.shop.models.bean.CartGoodsUpdateBean;
 import com.shop.models.bean.IndexBean;
 import com.shop.models.bean.RelatedBean;
 import com.shop.models.bean.SortBean;
@@ -74,6 +76,14 @@ public interface ShopApi {
     @FormUrlEncoded
     Flowable<CartGoodsCheckBean> setCartGoodsCheck(@Field("productIds") String pids,@Field("isChecked") int isChecked);
 
+    //更新商品的数据
+    @POST("cart/update")
+    @FormUrlEncoded
+    Flowable<CartGoodsUpdateBean> updateCartGoods(@Field("productId") String pids,@Field("goodsId") String goodsId, @Field("number") int number,@Field("id") int id);
 
 
+    //删除商品
+    @POST("cart/delete")
+    @FormUrlEncoded
+    Flowable<CartGoodsDeleteBean> deleteCartGoods(@Field("productIds") String pids);
 }

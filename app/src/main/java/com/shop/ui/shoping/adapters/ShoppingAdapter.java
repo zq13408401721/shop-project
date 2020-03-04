@@ -42,19 +42,7 @@ public class ShoppingAdapter extends BaseAdapter {
         CheckBox radio_select = (CheckBox) holder.getView(R.id.radio_select);
         ImageView img_item = (ImageView) holder.getView(R.id.img_item);
 
-        radio_select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(!isEdit){
-                    listBean.isSelect = isChecked;
-                }else{
-                    listBean.isDelSelect = isChecked;
-                }
-                if(itemClickHandler != null){
-                    itemClickHandler.itemClick(holder.getLayoutPosition(),holder);
-                }
-            }
-        });
+
 
         //默认布局
         TextView txt_name = (TextView) holder.getView(R.id.txt_name);
@@ -68,31 +56,66 @@ public class ShoppingAdapter extends BaseAdapter {
 
         Glide.with(mContext).load(listBean.getList_pic_url()).into(img_item);
 
+        radio_select.setTag(o);
+        radio_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CartBean.DataBean.CartListBean bean = (CartBean.DataBean.CartListBean) v.getTag();
+                boolean isChecked = radio_select.isChecked();
+                if(!isEdit){
+                    bean.isSelect = isChecked;
+                    if(itemClickHandler != null){
+                        itemClickHandler.itemClick(holder.getLayoutPosition(),holder);
+                    }
+                }else{
+                    bean.isDelSelect = isChecked;
+                }
+            }
+        });
+
         if(!isEdit){
+            //正常状态下显示的item
             radio_select.setChecked(listBean.isSelect);
             txt_name.setText(listBean.getGoods_name());
             String price = mContext.getResources().getString(R.string.price_news_model);
             price = price.replace("$",String.valueOf(listBean.getRetail_price()));
             txt_price.setText(price);
             txt_nums.setText(String.valueOf(listBean.getNumber()));
+
         }else{
+            //编辑状态下显示的item
+            radio_select.setChecked(false);
             String price = mContext.getResources().getString(R.string.price_news_model);
             price = price.replace("$",String.valueOf(listBean.getRetail_price()));
             txt_edit_price.setText(price);
             txt_edit_nums.setText(String.valueOf(listBean.getNumber()));
+            txt_subtract.setTag(holder);
             txt_subtract.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listBean.getNumber() == 1) return;
                     listBean.setNumber(listBean.getNumber()-1);
-                    txt_edit_nums.setText(String.valueOf(listBean.getNumber()));
+                    //txt_edit_nums.setText(String.valueOf(listBean.getNumber()));
+                    //更新数据
+                    BaseViewHolder vh = (BaseViewHolder) v.getTag();
+                    int pos = vh.getLayoutPosition();
+                    if(itemClickHandler != null){
+                        itemClickHandler.itemClick(pos,vh);
+                    }
                 }
             });
+            txt_add.setTag(holder);
             txt_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listBean.setNumber(listBean.getNumber()+1);
-                    txt_edit_nums.setText(String.valueOf(listBean.getNumber()));
+                    //txt_edit_nums.setText(String.valueOf(listBean.getNumber()));
+                    //更新数据
+                    BaseViewHolder vh = (BaseViewHolder) v.getTag();
+                    int pos = vh.getLayoutPosition();
+                    if(itemClickHandler != null){
+                        itemClickHandler.itemClick(pos,vh);
+                    }
                 }
             });
         }
