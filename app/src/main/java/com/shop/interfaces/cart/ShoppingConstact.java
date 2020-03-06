@@ -6,6 +6,7 @@ import com.shop.models.bean.CartBean;
 import com.shop.models.bean.CartGoodsCheckBean;
 import com.shop.models.bean.CartGoodsDeleteBean;
 import com.shop.models.bean.CartGoodsUpdateBean;
+import com.shop.models.bean.OrderInfoBean;
 
 public interface ShoppingConstact {
 
@@ -28,5 +29,17 @@ public interface ShoppingConstact {
         //删除商品
         void deleteCartGoods(String pids);
     }
+
+
+    //订单功能
+    interface OrderView extends IBaseView{
+        void getOrderListReturn(OrderInfoBean result);
+    }
+
+    interface OrderPresenter extends IBasePersenter<OrderView>{
+        //地址id+优惠券的ID
+        void getOrderList(int addressId,int couponId);
+    }
+
 
 }

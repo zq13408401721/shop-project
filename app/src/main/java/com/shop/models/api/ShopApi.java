@@ -1,5 +1,6 @@
 package com.shop.models.api;
 
+import com.shop.models.bean.AddressBean;
 import com.shop.models.bean.BrandBean;
 import com.shop.models.bean.BrandGoodsBean;
 import com.shop.models.bean.CartBean;
@@ -7,6 +8,7 @@ import com.shop.models.bean.CartGoodsCheckBean;
 import com.shop.models.bean.CartGoodsDeleteBean;
 import com.shop.models.bean.CartGoodsUpdateBean;
 import com.shop.models.bean.IndexBean;
+import com.shop.models.bean.OrderInfoBean;
 import com.shop.models.bean.RelatedBean;
 import com.shop.models.bean.SortBean;
 import com.shop.models.bean.SortDetailGoodsBean;
@@ -86,4 +88,11 @@ public interface ShopApi {
     @POST("cart/delete")
     @FormUrlEncoded
     Flowable<CartGoodsDeleteBean> deleteCartGoods(@Field("productIds") String pids);
+
+    @GET("address/list")
+    Flowable<AddressBean> getAddress();
+
+    //下单前的订单确认  地址ID+优惠券ID
+    @GET("cart/checkout")
+    Flowable<OrderInfoBean> getOrderInfo(@Query("addressId") int addressId,@Query("couponId") int couponId);
 }
