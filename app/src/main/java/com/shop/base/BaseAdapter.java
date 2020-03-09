@@ -17,6 +17,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
 
     protected List<T> mDatas;
     protected Context mContext;
+    private boolean isclick_item;
 
     public BaseAdapter(List<T> data, Context context){
         mDatas = data;
@@ -32,7 +33,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemClickHandler != null){
+                if (itemClickHandler != null && isclick_item){
                     itemClickHandler.itemClick(holder.getLayoutPosition(),holder);
                 }
             }
@@ -104,6 +105,13 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
     //设置回调接口的监听
     public void setOnItemClickHandler(ItemClickHandler clickHandler){
         this.itemClickHandler = clickHandler;
+        this.isclick_item = true;
+    }
+
+    //设置接口回调监听 ，监听是否发生在item上
+    public void setOnItemClickHandler(ItemClickHandler clickHandler,boolean isclick_item){
+        this.itemClickHandler = clickHandler;
+        this.isclick_item = isclick_item;
     }
 
     /**

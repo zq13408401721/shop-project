@@ -1,6 +1,7 @@
 package com.shop.models.api;
 
 import com.shop.models.bean.AddressBean;
+import com.shop.models.bean.AdressSaveBean;
 import com.shop.models.bean.BrandBean;
 import com.shop.models.bean.BrandGoodsBean;
 import com.shop.models.bean.CartBean;
@@ -9,6 +10,7 @@ import com.shop.models.bean.CartGoodsDeleteBean;
 import com.shop.models.bean.CartGoodsUpdateBean;
 import com.shop.models.bean.IndexBean;
 import com.shop.models.bean.OrderInfoBean;
+import com.shop.models.bean.RegionBean;
 import com.shop.models.bean.RelatedBean;
 import com.shop.models.bean.SortBean;
 import com.shop.models.bean.SortDetailGoodsBean;
@@ -17,8 +19,11 @@ import com.shop.models.bean.SortGoodsBean;
 import com.shop.models.bean.UserBean;
 import com.shop.models.bean.VerifyBean;
 
+import java.util.Map;
+
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -89,8 +94,19 @@ public interface ShopApi {
     @FormUrlEncoded
     Flowable<CartGoodsDeleteBean> deleteCartGoods(@Field("productIds") String pids);
 
+    //地址列表
     @GET("address/list")
     Flowable<AddressBean> getAddress();
+
+    //保存地址
+    @POST("address/save")
+    @FormUrlEncoded
+    Flowable<AdressSaveBean> saveAdress(@FieldMap Map adressMap);
+
+    //获取省市区的数据
+    @GET("region/list?parentId=39")
+    Flowable<RegionBean> getRegion(@Query("parentId") int parentId);
+
 
     //下单前的订单确认  地址ID+优惠券ID
     @GET("cart/checkout")

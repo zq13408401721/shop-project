@@ -2,11 +2,16 @@ package com.shop.interfaces.cart;
 
 import com.shop.interfaces.IBasePersenter;
 import com.shop.interfaces.IBaseView;
+import com.shop.models.bean.AddressBean;
+import com.shop.models.bean.AdressSaveBean;
 import com.shop.models.bean.CartBean;
 import com.shop.models.bean.CartGoodsCheckBean;
 import com.shop.models.bean.CartGoodsDeleteBean;
 import com.shop.models.bean.CartGoodsUpdateBean;
 import com.shop.models.bean.OrderInfoBean;
+import com.shop.models.bean.RegionBean;
+
+import java.util.Map;
 
 public interface ShoppingConstact {
 
@@ -41,5 +46,28 @@ public interface ShoppingConstact {
         void getOrderList(int addressId,int couponId);
     }
 
+
+    //地址管理
+    interface AdressView extends IBaseView{
+        void getAdressListReturn(AddressBean result);
+    }
+
+    interface AdressPresenter extends IBasePersenter<AdressView>{
+        void getAdressList();
+    }
+
+    interface AdressNewView extends IBaseView{
+        void saveAdressReturn(AdressSaveBean result);
+
+        //获取省市区数据返回
+        void getRegionReturn(RegionBean result);
+    }
+
+    interface AdressNewPresenter extends IBasePersenter<AdressNewView>{
+        void saveAdress(Map map);
+
+        //获取省市区数据
+        void getRegion(int parentId);
+    }
 
 }
