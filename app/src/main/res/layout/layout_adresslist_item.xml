@@ -15,6 +15,7 @@
         android:layout_marginBottom="30dp"
         android:text="name"></TextView>
     <TextView
+        android:id="@+id/txt_default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"

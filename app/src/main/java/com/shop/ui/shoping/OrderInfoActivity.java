@@ -1,5 +1,6 @@
 package com.shop.ui.shoping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -97,8 +98,12 @@ public class OrderInfoActivity extends BaseActivity<ShoppingConstact.OrderPresen
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_noaddress_tips:
+                Intent intent = new Intent(this,AdressEditorActivity.class);
+                startActivity(intent);
                 break;
             case R.id.layout_address:
+                Intent intent1 = new Intent(this,AdressListActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.layout_coupon:
                 break;

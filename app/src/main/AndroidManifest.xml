@@ -34,6 +34,8 @@
         <activity android:name=".ui.login.RegisterActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.shoping.OrderInfoActivity"/>
+        <activity android:name=".ui.shoping.AdressListActivity"/>
+        <activity android:name=".ui.shoping.AdressEditorActivity"/>
         <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="true"/>
     </application>
 

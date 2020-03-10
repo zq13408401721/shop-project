@@ -104,7 +104,7 @@ public interface ShopApi {
     Flowable<AdressSaveBean> saveAdress(@FieldMap Map adressMap);
 
     //获取省市区的数据
-    @GET("region/list?parentId=39")
+    @GET("region/list")
     Flowable<RegionBean> getRegion(@Query("parentId") int parentId);
 
 

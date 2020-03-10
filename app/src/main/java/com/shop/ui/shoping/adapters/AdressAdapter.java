@@ -33,13 +33,9 @@ public class AdressAdapter extends BaseAdapter {
         txtDefault.setVisibility(bean.getIs_default() == 1 ? View.VISIBLE : View.GONE);
         txtPhone.setText(bean.getMobile());
         txtAdress.setText(bean.getCity_name()+bean.getDistrict_name()+bean.getFull_region());
-        imgEditor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(itemClickHandler != null){
-                    itemClickHandler.itemClick(holder.getLayoutPosition(),holder);
-                }
-            }
-        });
+        imgEditor.setTag(bean);
+        if(clickListener != null){
+            imgEditor.setOnClickListener(clickListener);
+        }
     }
 }

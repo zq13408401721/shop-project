@@ -1,5 +1,6 @@
 package com.shop.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -26,12 +27,13 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
 
     protected P persenter;
     Unbinder unbinder;
-
+    protected Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        context = this;
         unbinder = ButterKnife.bind(this);
         initView();
         persenter = createPersenter();

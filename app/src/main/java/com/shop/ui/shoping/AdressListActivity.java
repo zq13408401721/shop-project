@@ -2,6 +2,7 @@ package com.shop.ui.shoping;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,6 +45,22 @@ public class AdressListActivity extends BaseActivity<ShoppingConstact.AdressPres
         adressAdapter = new AdressAdapter(list,this);
         recyAdressList.setLayoutManager(new LinearLayoutManager(this));
         recyAdressList.setAdapter(adressAdapter);
+
+        //设置一个条目中组件点击事件的响应方法
+        adressAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.img_editor:  //编辑地址的页面
+                        AddressBean.DataBean item = (AddressBean.DataBean) v.getTag();
+                        //进入地址编辑的页面
+                        Intent intent = new Intent(context,AdressEditorActivity.class);
+                        intent.putExtra("adress",item);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 
     @Override

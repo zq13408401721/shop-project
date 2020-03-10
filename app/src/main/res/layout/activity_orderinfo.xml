@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_pay"
         android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -217,10 +219,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_goodList"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:background="@color/col_gray_line"
                 app:layout_constraintTop_toBottomOf="@id/layout_goods_info"
-                app:layout_constraintBottom_toTopOf="@id/layout_pay"
                 android:paddingTop="@dimen/margin_default_lr">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recy_goodList"
@@ -228,36 +229,35 @@
                     android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_pay"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:layout_constraintLeft_toLeftOf="pa"
-                app:layout_constraintBottom_toBottomOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_default_lr"
-                    android:text="实付: ￥10000"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></TextView>
-
-                <TextView
-                    android:id="@+id/txt_pay"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorAccent"
-                    android:gravity="center"
-                    android:text="去付款"
-                    android:textColor="@color/col_white"
-                    android:textSize="20sp"
-                    app:layout_constraintRight_toRightOf="parent"></TextView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_pay"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_default_lr"
+            android:text="实付: ￥10000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/txt_pay"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:text="去付款"
+            android:textColor="@color/col_white"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="parent"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

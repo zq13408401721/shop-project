@@ -237,7 +237,8 @@ public class ShopingFragment extends BaseFragment<ShoppingConstact.Presenter> im
      * 下单
      */
     private void doOrder(){
-
+        Intent intent = new Intent(context,OrderInfoActivity.class);
+        startActivity(intent);
     }
 
     /**
