@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.shop.interfaces.IBasePersenter;
 import com.shop.interfaces.IBaseView;
 
+import java.util.LinkedList;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -28,7 +30,6 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
     protected P persenter;
     Unbinder unbinder;
     protected Context context;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

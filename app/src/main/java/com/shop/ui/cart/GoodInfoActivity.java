@@ -118,7 +118,7 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
     }
     //商品介绍描述信息
     private void updateWebView(RelatedBean.DataBeanX.InfoBean infoBean){
-
+        //用webview加载网页内容实现商品详情数据的展示
         String css_str = getResources().getString(R.string.css_goods);
         StringBuilder sb = new StringBuilder();
         sb.append("<html><head>");
@@ -126,6 +126,7 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
         sb.append(infoBean.getGoods_desc()+"</body></html>");
         webView.loadData(sb.toString(),"text/html","utf-8");
 
+        //通过解析数据内容，提取图片的地址，结合recyclerview加载对应的图片实现
         List<String> urlList = new ArrayList<>();
         String[] arr = infoBean.getGoods_desc().split("<p>");
         String head = "<img src=\"";

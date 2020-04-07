@@ -8,6 +8,7 @@ import com.shop.models.bean.CartBean;
 import com.shop.models.bean.CartGoodsCheckBean;
 import com.shop.models.bean.CartGoodsDeleteBean;
 import com.shop.models.bean.CartGoodsUpdateBean;
+import com.shop.models.bean.GoodHotBean;
 import com.shop.models.bean.IndexBean;
 import com.shop.models.bean.OrderInfoBean;
 import com.shop.models.bean.RegionBean;
@@ -39,6 +40,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ShopApi {
 
@@ -72,6 +74,11 @@ public interface ShopApi {
     //商品购买页面的数据接口
     @GET("goods/detail")
     Flowable<RelatedBean> getRelatedData(@Query("id") int id);
+
+    //人气推荐详情页（点击人气推荐的标题进入）
+    @GET("goods/list")
+    Flowable<GoodHotBean> getGoodHot(@QueryMap Map<String,String> map);
+
 
     //验证码
     @GET("auth/verify")

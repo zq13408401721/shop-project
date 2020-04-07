@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.shop.R;
 import com.shop.base.BaseActivity;
 import com.shop.common.Constant;
@@ -23,7 +27,18 @@ import com.wildma.pictureselector.PictureSelector;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -43,6 +58,13 @@ public class TestActivity extends BaseActivity<TestConstract.Persenter> implemen
     @BindView(R.id.btn_upload)
     Button btnUpload;
 
+    @BindView(R.id.toolBar)
+    Toolbar toolbar;
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+
+    MenuItem menuItem;
+
     @Override
     protected int getLayout() {
         return R.layout.activity_test;
@@ -61,6 +83,14 @@ public class TestActivity extends BaseActivity<TestConstract.Persenter> implemen
     @Override
     protected TestConstract.Persenter createPersenter() {
         return new TestPersenter();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_item,menu);
+        menuItem = menu.findItem(R.id.search_view);
+        searchView.setMenuItem(menuItem);
+        return true;
     }
 
     @Override
@@ -131,7 +161,9 @@ public class TestActivity extends BaseActivity<TestConstract.Persenter> implemen
                 //获取图片本地路径
                 String picturePath = data.getStringExtra(PictureSelector.PICTURE_PATH);
 
-                upload(picturePath);
+                //upload(picturePath);
+
+                httpUplaod(picturePath);
             }
         }
     }
@@ -139,8 +171,6 @@ public class TestActivity extends BaseActivity<TestConstract.Persenter> implemen
     private void upload(String url){
         File file = new File(url);
         RequestBody reqBody = RequestBody.create(MediaType.parse("image/png"),file);
-
-
 
         MultipartBody.Part part = MultipartBody.Part.createFormData("file",file.getName(),reqBody);
         Retrofit retrofit = new Retrofit.Builder()
@@ -162,6 +192,89 @@ public class TestActivity extends BaseActivity<TestConstract.Persenter> implemen
 
     }
 
+    /**
+     * http upload
+     * @param path
+     */
+    private void httpUplaod(String path){
+        String uploadUrl = "http://yun918.cn/study/public/file_upload.php";
+
+        byte[] body_data = null;
+        BufferedInputStream bis = null;
+        try {
+            bis = new BufferedInputStream(new FileInputStream(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int pos = 0;
+        byte[] buffer = new byte[8*1024];
+
+        try {
+            while((pos = bis.read(buffer)) != -1){
+                baos.write(buffer,0,pos);
+                baos.flush();
+            }
+            body_data = baos.toByteArray();
+            baos.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        String result = submitBody(uploadUrl,path,body_data);
+        Log.i("result:",result);
+    }
+
+    private String submitBody(String url,String filePath,byte[] body_data){
+        HttpURLConnection httpURLConn = null;
+        BufferedInputStream bis = null;
+        DataOutputStream dos = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try{
+            URL urlObj = new URL(url);
+            httpURLConn = (HttpURLConnection) urlObj.openConnection();
+            httpURLConn.setDoInput(true);
+            httpURLConn.setDoOutput(true);
+            httpURLConn.setRequestMethod("POST");
+            httpURLConn.setUseCaches(false);
+            httpURLConn.setRequestProperty("Connecttion","Keep-Alive");
+            httpURLConn.setRequestProperty("Accept","*/*");
+            httpURLConn.setRequestProperty("Accept-Encoding","gzip,deflate");
+            httpURLConn.setRequestProperty("Cache-Control","no-cache");
+            //httpURLConn.setRequestProperty("Content-Type","multipart/form-data;");
+            httpURLConn.connect();
+            dos = new DataOutputStream(httpURLConn.getOutputStream());
+            dos.writeBytes("Content-Disposition:multipart/form-data; key=\"file_dir\"");
+
+            if(body_data != null && body_data.length > 0){
+                String fileName = filePath.substring(filePath.lastIndexOf(File.separatorChar));
+                dos.writeBytes("Content-Disposition:image/png; file=\""+fileName+"\"");
+                dos.write(body_data);
+            }
+            dos.flush();
+
+            byte[] buffer = new byte[8*1024];
+            int pos = 0;
+            if(httpURLConn.getResponseCode() == 200){
+                bis = new BufferedInputStream(httpURLConn.getInputStream());
+                while((pos = bis.read(buffer)) != -1){
+                    baos.write(buffer,0,pos);
+                    baos.flush();
+                }
+            }
+            return new String(baos.toByteArray(),"utf-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                dos.close();
+                bis.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
     private Handler handler = new Handler(){
         @Override

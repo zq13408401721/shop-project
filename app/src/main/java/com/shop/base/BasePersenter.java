@@ -29,6 +29,7 @@ public abstract class BasePersenter<V extends IBaseView> implements IBasePersent
         mView = weakReference.get();
     }
 
+
     /**
      * 把当前业务下的网络请求对象添加到compositedisposable
      * @param disposable
