@@ -126,8 +126,9 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
         sb.append(infoBean.getGoods_desc()+"</body></html>");
         webView.loadData(sb.toString(),"text/html","utf-8");
 
+
         //通过解析数据内容，提取图片的地址，结合recyclerview加载对应的图片实现
-        List<String> urlList = new ArrayList<>();
+       /* List<String> urlList = new ArrayList<>();
         String[] arr = infoBean.getGoods_desc().split("<p>");
         String head = "<img src=\"";
         String foot = ".jpg";
@@ -139,7 +140,7 @@ public class GoodInfoActivity extends BaseActivity<CartConstart.Persenter> imple
             String url = arr[i].substring(start,end);
             urlList.add(url);
             Log.i("url",url);
-        }
+        }*/
     }
 
     //商品列表

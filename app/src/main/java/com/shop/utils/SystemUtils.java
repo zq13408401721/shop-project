@@ -9,6 +9,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
+import androidx.annotation.RequiresApi;
+
 import com.shop.apps.MyApp;
 
 public class SystemUtils {

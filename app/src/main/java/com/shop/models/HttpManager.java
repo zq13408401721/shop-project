@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.shop.common.Constant;
+import com.shop.models.api.ApkApi;
 import com.shop.models.api.ShopApi;
 import com.shop.models.api.WanApi;
 import com.shop.utils.SpUtils;
@@ -40,6 +41,8 @@ public class HttpManager {
     private WanApi wanApi; //wanandroid接口
 
     private ShopApi shopApi;  //商城的接口
+
+    private ApkApi apkApi;   //apk请求服务
 
 
     private static volatile HttpManager instance;
@@ -104,6 +107,15 @@ public class HttpManager {
     public ShopApi getShopApi(){
         if(shopApi == null) shopApi = getRetrofit(Constant.BASE_SHOP_URL).create(ShopApi.class);
         return shopApi;
+    }
+
+    /**
+     * apk管理的接口服务
+     * @return
+     */
+    public ApkApi getApkApi(){
+        if(apkApi == null) apkApi = getRetrofit(Constant.BASE_APK_URL).create(ApkApi.class);
+        return apkApi;
     }
 
     /**
