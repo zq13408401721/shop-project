@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ import com.shop.utils.ApkUtils;
 import com.shop.utils.SpUtils;
 import com.shop.utils.SystemUtils;
 
+import butterknife.BindView;
+
 public class SplashActivity extends BaseActivity<SplashConstact.Persenter> implements SplashConstact.View {
 
 
@@ -39,6 +42,14 @@ public class SplashActivity extends BaseActivity<SplashConstact.Persenter> imple
     private AlertDialog downProgress; //提示下载进度框
 
     private String apkPath; //apk下载到本地的路径
+
+    @BindView(R.id.img_bg)
+    ImageView imgBg;
+    @BindView(R.id.txt_jump)
+    TextView txtJump;
+
+    private boolean isComeIn;
+
     @Override
     protected int getLayout() {
         return R.layout.activity_splash;
@@ -46,7 +57,13 @@ public class SplashActivity extends BaseActivity<SplashConstact.Persenter> imple
 
     @Override
     protected void initView() {
-
+        txtJump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isComeIn = true;
+                gotoMain();
+            }
+        });
     }
 
     @Override
@@ -73,17 +90,50 @@ public class SplashActivity extends BaseActivity<SplashConstact.Persenter> imple
             //提示更新
             showUpdateDialog();
         }else{
-            //跳转到zhuye
+            //跳转到主页
             if(!SpUtils.getInstance().getBoolean(Constant.WELCOME_READ)){
                 Intent intent = new Intent(this,WelComeActivity.class);
                 startActivity(intent);
                 finish();
             }else{
-                gotoMain();
+                //插入广播
+                imgBg.setVisibility(View.VISIBLE);
+                txtJump.setVisibility(View.VISIBLE);
+                JumpTime();
             }
         }
-
     }
+
+    private void JumpTime(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i=0;
+                while (i<5){
+                    if(isComeIn) break;
+                    try {
+                        i++;
+                        int time = 5-i;
+                        txtJump.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                txtJump.setText("点击跳转"+String.valueOf(time));
+                            }
+                        });
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //时间到了直接跳主页
+                if(!isComeIn){
+                    isComeIn = true;
+                    gotoMain();
+                }
+            }
+        }).start();
+    }
+
 
     /**
      * 弹出更新提示的框
@@ -210,5 +260,11 @@ public class SplashActivity extends BaseActivity<SplashConstact.Persenter> imple
         if(apkBean != null && apkBean.getIsupdate() == 0){
             gotoMain();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onDestroy();
     }
 }

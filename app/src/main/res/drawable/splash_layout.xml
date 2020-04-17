@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--背景颜色-->
+    <item>
+        <color android:color="@color/col_white"></color>
+    </item>
+    <!--top-->
+    <item>
+        <bitmap android:src="@drawable/splash_top" android:gravity="center_horizontal|top"></bitmap>
+    </item>
+    <!--bottom-->
+    <item>
+        <bitmap android:src="@drawable/splash_bottom" android:gravity="center_horizontal|bottom"></bitmap>
+    </item>
+</layer-list>
