@@ -29,11 +29,13 @@ import com.shop.persenter.main.SplashPersenter;
 import com.shop.utils.ApkUtils;
 import com.shop.utils.SpUtils;
 import com.shop.utils.SystemUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 
 public class SplashActivity extends BaseActivity<SplashConstact.Persenter> implements SplashConstact.View {
 
+    private static String TAG = SplashActivity.class.getSimpleName();
 
     private ApkBean apkBean;  //apk版本信息
 
@@ -49,6 +51,19 @@ public class SplashActivity extends BaseActivity<SplashConstact.Persenter> imple
     TextView txtJump;
 
     private boolean isComeIn;
+
+    //重写统计
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
+    }
 
     @Override
     protected int getLayout() {

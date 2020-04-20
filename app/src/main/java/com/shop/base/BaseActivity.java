@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.shop.interfaces.IBasePersenter;
 import com.shop.interfaces.IBaseView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.LinkedList;
 
@@ -62,6 +63,21 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
     @Override
     public void showTips(String msg) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+
+    //添加友盟的统计
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(context);
+    }
+
+    //友盟统计
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(context);
     }
 
     /**

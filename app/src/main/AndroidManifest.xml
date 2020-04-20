@@ -42,6 +42,12 @@
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
             android:value="true" />
+
+        <!--友盟渠道设置-->
+        <meta-data
+            android:name="CHANNEL_NAME"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
     </application>
 
 </manifest>
