@@ -14,4 +14,9 @@
         <item name="android:windowBackground">@drawable/splash_layout</item>
     </style>
 
+    <!--自定义View Tab属性设置-->
+    <declare-styleable name="MyTab">
+        <attr name="tab_lt_title" format="string"></attr>
+        <attr name="tab_rt_title" format="string"></attr>
+    </declare-styleable>
 </resources>

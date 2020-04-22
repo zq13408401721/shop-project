@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Shop</string>
-    <string name="title_home">主页</string>
-    <string name="title_topic">专题</string>
-    <string name="title_sort">分类</string>
-    <string name="title_shoping">购物车</string>
-    <string name="title_me">我的</string>
+    <string name="app_name">民宿</string>
+    <string name="title_explore">探索</string>
+    <string name="title_wish">心愿单</string>
+    <string name="title_story">故事</string>
+    <string name="title_mails">收件箱</string>
+    <string name="title_login">登录</string>
 
     <string name="price_news_model">￥$</string>
     <string name="css_goods">

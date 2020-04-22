@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        flavorDimensions "default"
+        flavorDimensions "shop"
     }
     buildTypes {
         release {
@@ -28,17 +28,21 @@ android {
     //友盟多渠道打包设置
     productFlavors {
         yingyongbao {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao"]
+            //manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao"]
         }
         xiaomi {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+            //manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
         }
         huawei {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huawei"]
+            //manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huawei"]
         }
         vivo {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "vivo"]
+            //manifestPlaceholders = [UMENG_CHANNEL_VALUE: "vivo"]
         }
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 }
 
@@ -97,4 +101,7 @@ dependencies {
     //友盟的依赖包
     implementation  'com.umeng.umsdk:analytics:8.0.0'
     implementation  'com.umeng.umsdk:common:2.0.0'
+    
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'  //没有使用特殊Header，可以不加这行
 }
